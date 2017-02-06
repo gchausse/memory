@@ -3,8 +3,19 @@
     padding: 0;
     box-sizing: border-box;
 }
-main{
-    border: 2px solid black;
-    width: 60%;
+body {
+    width: 80%;
     margin: auto;
+}
+.card {
+    width: 25%;
+    height: 300px;
+    display: inline-block;
+    text-align: center;
+    background-color: silver;
+    border: 2px solid white;
+    color: white;
+    font-size: 30px;
+    padding-top: 125px;
+
 }
