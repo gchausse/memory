@@ -12,7 +12,10 @@
     </body>
     <script type="text/javascript">
         var cardNumber = 13;
-        var boardElemnt = document.getElementById('memory');
+        var boardElemnt =
+        document.getElementById('memory');
+        var count = 0;
+        var cardtourne ="";
 
         for(var i=1; i < cardNumber/2; i++){
 
@@ -31,12 +34,25 @@
                 cardElement.appendChild(textElement);
 
                 boardElemnt.appendChild(cardElement);
-                if(cacheElement.length=2)
-                    cacheElement.addEventListener("click", function() {
+
+                cacheElement.addEventListener("click", function() {
                         this.className = "afficher";
+
+
+                        count = count+1
+
+                        console.log(cardtourne);
+
+
+                    if(count >= 1){
+                        var recache = document.getElementsByClassName('afficher');
+                        recache.className = "cache";
+                    
+
+                        console.log(cacheElement.className);
                     }
-                    this.className = "cache";
-                 });
+                });
+
             }
 
 
