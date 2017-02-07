@@ -15,15 +15,30 @@
         var boardElemnt = document.getElementById('memory');
 
         for(var i=1; i < cardNumber/2; i++){
-            var cardElement =  document.createElement("div");
-            cardElement.innerHTML = i;
-            cardElement.className="card";
-            boardElemnt.appendChild(cardElement);
 
-            var cardElement = document.createElement("div");
-            cardElement.innerHTML = i;
-            cardElement.className="card";
-            boardElemnt.appendChild(cardElement);
+            for (var j = 0; j < 2; j++) {
+
+                var cardElement =  document.createElement("div");
+                cardElement.className= "card";
+
+                var cacheElement =  document.createElement("div");
+                cacheElement.className= "cache";
+                cardElement.appendChild(cacheElement);
+
+                var textElement = document.createElement("div");
+                textElement.className="text";
+                textElement.innerHTML = i;
+                cardElement.appendChild(textElement);
+
+                boardElemnt.appendChild(cardElement);
+                if(cacheElement.length=2)
+                    cacheElement.addEventListener("click", function() {
+                        this.className = "afficher";
+                    }
+                    this.className = "cache";
+                 });
+            }
+
 
         }
 
