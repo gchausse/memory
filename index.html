@@ -1,27 +1,75 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
         <title>memory</title>
         <link rel="stylesheet" href="./style/style.css">
     </head>
-    <body>
+    <body id="body">
         <section id="memory">
 
         </section>
     </body>
     <script type="text/javascript">
-        var cardNumber = 13;
-        var boardElemnt =
-        document.getElementById('memory');
+        var cardNumber = 20;
+        var boardElemnt = document.getElementById('memory');
+        var bodyElement = document.getElementById("body");
         var count = 0;
-        var cardtourne ="";
+        var cardTourne1 = null;
+        var cardTourne2 = null;
+        var valeurCard1 = null;
+        var valeurCard2 = null;
+        var cardGagne1 = null;
+        var cardGagne2 = null;
+        var cardElement = null;
+        var infotextElement = null;
+        var infoChrono = null;
+        var infoCard = null;
+        var countTime = 2*cardNumber;
+        var countCardNumber = cardNumber;
+        var timer = null;
 
-        for(var i=1; i < cardNumber/2; i++){
+        infotextElement = document.createElement("div");
+        infotextElement.style.width = "100%";
+        infotextElement.style.textAlign = "center";
+        infotextElement.style.fontSize ="22px";
+        infotextElement.style.marginBottom = "1.5em";
+        infotextElement.id = "info";
+        bodyElement.insertBefore(infotextElement, bodyElement.firstChild);
+        infotextElement = document.getElementById("info");
+
+
+        infoChrono = document.createElement("h1");
+        infoChrono.style.width = "50%";
+        infoChrono.innerHTML = "il vous reste :" + countTime;
+        infoChrono.style.display ="inline-block";
+        infoChrono.style.border = "2px solid black";
+        infoChrono.style.padding = "1em";
+        infotextElement.appendChild(infoChrono);
+
+        infoCard = document.createElement("h1");
+        infoCard.style.width = "50%";
+        infoCard.innerHTML = "il vous reste :" + cardNumber + "cartes";
+        infoCard.style.display ="inline-block";
+        infoCard.style.border = "2px solid black";
+        infoCard.style.padding = "1em";
+        infotextElement.appendChild(infoCard);
+
+        if (countTime<=0){
+            // function stoptimerFunction() {
+                clearInterval(timer);
+                boardElemnt.style.visibility = "hidden";
+            // }
+        }
+
+
+        for(var i=0; i < cardNumber/2; i++){
+            var nombreAleatoire = Math.floor(cardNumber/2*Math.random());
 
             for (var j = 0; j < 2; j++) {
 
-                var cardElement =  document.createElement("div");
+                cardElement =  document.createElement("div");
+                cardElement.style.order= Math.floor(50*Math.random());
                 cardElement.className= "card";
 
                 var cacheElement =  document.createElement("div");
@@ -29,36 +77,56 @@
                 cardElement.appendChild(cacheElement);
 
                 var textElement = document.createElement("div");
+                textElement.innerHTML = nombreAleatoire;
                 textElement.className="text";
-                textElement.innerHTML = i;
                 cardElement.appendChild(textElement);
 
                 boardElemnt.appendChild(cardElement);
 
                 cacheElement.addEventListener("click", function() {
+                        count = count+1;
                         this.className = "afficher";
 
+                        if(count == 1){
+                            cardTourne1 = this;
+                            valeurCard1 = cardTourne1.nextSibling.innerHTML;
+                            timer = setInterval(timerFunction, 1000);
+                            function timerFunction (){
+                                infoChrono.innerHTML = "il vous reste :" + countTime + " secondes";
+                                countTime--;
+                                if (countTime>countCardNumber*2){
+                                    infoChrono.style.color = "#38ad32";
+                                }else if(countTime<=countCardNumber*2 && countTime>countCardNumber){
+                                    infoChrono.style.color = "#f5f323";
+                                }else if(countTime<=countCardNumber){
+                                    infoChrono.style.color = "#dd3517";
+                                }
 
-                        count = count+1
-
-                        console.log(cardtourne);
-
-
-                    if(count >= 1){
-                        var recache = document.getElementsByClassName('afficher');
-                        recache.className = "cache";
-                    
-
-                        console.log(cacheElement.className);
-                    }
+                            }
+                        }else if(count == 2){
+                            cardTourne2 = this;
+                            valeurCard2 = cardTourne2.nextSibling.innerHTML;
+                            countTime = countTime - 3;
+                        }else if(count == 3){
+                            cardTourne1.className = "cache";
+                            cardTourne2.className = "cache";
+                            count = 1;
+                            cardTourne1 = this;
+                            valeurCard1 = cardTourne1.nextSibling.innerHTML;
+                        }
+                        if(valeurCard1 == valeurCard2 && count == 2){
+                            cardGagne1 = cardTourne1.parentNode;
+                            cardGagne2 = cardTourne2.parentNode;
+                            cardGagne1.className = "cartetrouve";
+                            cardGagne2.className = "cartetrouve";
+                            // cardTourne1.style.visibility = "hidden";
+                            // cardTourne2.style.visibility = "hidden";
+                            countCardNumber = countCardNumber-2;
+                            countTime = countTime + 15;
+                            infoCard.innerHTML = "il vous reste :" + countCardNumber + " cartes";
+                        }
                 });
-
             }
-
-
         }
-
-
-
     </script>
 </html>
